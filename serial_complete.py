@@ -28,6 +28,16 @@ inductive.flush()
 laser_model = "Laser Beam Pew Pew" 	
 inductive_model = "Bongo-Lite (I can't think of funny names)"
 
+file_extension = ".txt"
+laser_file_name = laser_model + file_extension
+inductive_file_name = inductive_model + file_extension
+
+laser_file = open(laser_file_name, 'w')
+inductive_file_name = open(inductive_file_name, 'w')
+
+
+
+
 exit()
 
 
