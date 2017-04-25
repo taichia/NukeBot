@@ -3,6 +3,7 @@ import sys
 import time
 
 #The following line is for serial over GPIO
+#The port number needs to be changed every time you change computers
 port = '/dev/tty.usbmodem1411'
 
 
