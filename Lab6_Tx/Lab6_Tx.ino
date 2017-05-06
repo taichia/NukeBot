@@ -4,6 +4,7 @@
 const int stepPin = 3;
 const int directionPin = 8;
 const int enablePin = 9;
+const int switchPin = 4;
 
 int stepState = 0;
 char user_input;
@@ -20,7 +21,15 @@ void setup() {
   pinMode(directionPin,OUTPUT);
   digitalWrite(directionPin,LOW);
   digitalWrite(enablePin, HIGH);
+  pinMode(switchPin,INPUT);
 //  setPwmFrequency(2,1);
+}
+
+void zero(){
+  while(digitalRead(switchPin) == LOW){
+    digitalWrite(directionPin, LOW);
+    nSteps(1);
+  }
 }
 
 void nSteps(int n){
@@ -42,7 +51,7 @@ void oneRotation(){
 }
 void oneStick(){
   int i;
-  for(i = 0; i < 40; i++){
+  for(i = 0; i < 35; i++){
     for(x = 0; x < 16*200; x++){
       digitalWrite(stepPin,HIGH);
       delayMicroseconds(SWITCH_DELAY);
@@ -52,14 +61,16 @@ void oneStick(){
   }
 }
 
-
 // loop code, runs indefinitely
 void loop() {
   if(Serial.available()){
     user_input = Serial.read();
     Serial.print(user_input);
     digitalWrite(enablePin, LOW);
-    if(user_input == '1'){
+    if(user_input == '0'){
+      zero();
+    }
+    else if(user_input == '1'){
       digitalWrite(directionPin, LOW);
       nSteps(1);
     }
@@ -91,7 +102,11 @@ void loop() {
       digitalWrite(directionPin, HIGH);
       oneStick();
     }
+    else if(digitalRead(switchPin) == HIGH){
+      Serial.write("switch is pressed\n");
+    }
     digitalWrite(enablePin, HIGH);
+    Serial.write("done\n");
   }
  }
 

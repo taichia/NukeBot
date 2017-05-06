@@ -64,14 +64,15 @@ def getDataFromDMM():
 	return reading
 
 # ard.write("3")			
-
+ard.write("0")
+ard.readline()
 laser.write((input() + '\n').encode())
 line = ""
 while(not line.startswith("=>")):
 	line = laser.readline().strip()
 while(1):
-	# ard.write("1")
-	# print(ard.readline())
+	ard.write("1")
+	print(ard.readline())
 	print(getDataFromDMM())
 	# time.sleep(.01)
 
