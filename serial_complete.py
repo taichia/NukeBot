@@ -22,15 +22,22 @@ max_steps = 200*10*6
 #The port number needs to be changed every time you change computers/reboot(?)
 port1 = '/dev/tty.usbmodem1411'
 port2 = '/dev/tty.usbserial'
-port3 = '/dev/tty.usbmodem1413'
+port3 = '/dev/tty.usbserial4'
 # 
-ard = serial.Serial(port1,1200,timeout=5)
+# ard = serial.Serial(port1,1200,timeout=5)
 laser = serial.Serial(port = port2,
 	baudrate = 9600, 
 	parity = serial.PARITY_NONE,
 	stopbits = serial.STOPBITS_ONE,
 	bytesize = serial.EIGHTBITS,
 	timeout=20)
+inductive = serial.Serial(port = port3,
+	baudrate = 9600, 
+	parity = serial.PARITY_NONE,
+	stopbits = serial.STOPBITS_ONE,
+	bytesize = serial.EIGHTBITS,
+	timeout=20)
+
 #inductive = serial.Serial(port3, 9600, timeout=5)
 
 print ('Before starting, make sure you changed sensor model numbers.')
@@ -54,26 +61,31 @@ def convertToFloat(inputFromDMM):
 		base = float(inputFromDMM[0])
 		return base * pow(10,int(inputFromDMM[1]))
 
-def getDataFromDMM():
-	laser.write('VAL?\n'.encode())
+def getDataFromDMM(device):
+	device.write('VAL?\n'.encode())
 	line = ""
 	while(not line.startswith("=>")):
-		line = laser.readline().strip()
+		line = device.readline().strip()
 		if(line.startswith("+") or line.startswith("-")):
 			reading = convertToFloat(line)
 	return reading
 
-# ard.write("3")			
 ard.write("0")
 ard.readline()
 laser.write((input() + '\n').encode())
+inductive.write((input() + '\n').encode())
 line = ""
 while(not line.startswith("=>")):
 	line = laser.readline().strip()
+line = ""
+while(not line.startswith("=>")):
+	line = inductive.readline().strip()
+
 while(1):
 	ard.write("1")
 	print(ard.readline())
-	print(getDataFromDMM())
+	print(getDataFromDMM(laser))
+	print(getDataFromDMM(inductive))
 	# time.sleep(.01)
 
 #inductive.flush()
