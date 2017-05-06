@@ -6,9 +6,9 @@ import time
 mmHeightLaserAboveInductive = 62.738
 mmLaserInFrontOfInductive = 100.84
 
-# data from OD value calibration run 3 linear fit, applying 13.17V
+# 4 to 20 mA range, 65 to 105 mm range, extrapolated
 def convertmALaser(mA):
-    return (mA - 20.037)/(-0.6070)
+    return 2.5 * mA + 55
 
 # data from excel sheet, matlab best fit function using polyfit, degree 5
 def convertVoltageInductive(V):
