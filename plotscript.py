@@ -22,6 +22,7 @@ ax1.set_title("Incoming data stream")
 ax2.set_title("Deposit thickness")
 plt.xlabel("Distance traveled (mm)")
 plt.ylabel("Thickness (mm)")
+resultFile = open("results.txt", "w+")
 
 def animate(i):
     laserData = open("laserdata.txt","r").read()
@@ -54,8 +55,11 @@ def animate(i):
         laserXPos = x + mmLaserInFrontOfInductive
         if laserXPos in laserMap:
             laserYPos = laserMap[laserXPos]
-            deltaX.append(laserXPos)
-            deltaY.append(y - laserYPos)
+            newX, newY = laserXPos, (y - laserYPos)
+            deltaX.append(newX)
+            deltaY.append(newY)
+            resultFile.write("%.4f,%.4f\n" % newX, newY)
+    resultFile.close()
     ax2.clear()
     ax2.plot(deltaX,deltaY)
 ani = animation.FuncAnimation(fig, animate, interval=100)
