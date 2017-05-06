@@ -25,8 +25,8 @@ plt.ylabel("Thickness (mm)")
 resultFile = open("results.txt", "w+")
 
 def animate(i):
-    laserData = open("laserdata.txt","r+").read()
-    inductiveData = open("inductivedata.txt","r+").read()
+    laserData = open("laserdata.txt","r").read()
+    inductiveData = open("inductivedata.txt","r").read()
     laserArray = laserData.split('\n')
     inductiveArray = inductiveData.split('\n')
     laserX = []
