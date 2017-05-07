@@ -17,15 +17,15 @@ def convertVoltageInductive(V):
     return 0.0028*V**5 - 0.0796*V**4 + 0.8442*V**3 - 4.0087*V**2 + 10.6857*V + 0.8484
 
 fig = plt.figure()
-ax1 = fig.add_subplot(211)
-ax1.set_ylabel("Normalized sensor reading (mm)")
-ax2 = fig.add_subplot(212)
-ax1.set_title("Incoming data stream")
-ax2.set_title("Deposit thickness")
-ax2.set_xlabel("Distance traveled (mm)")
-ax2.set_ylabel("Thickness (mm)")
 
 def animate(i):
+    ax1 = fig.add_subplot(211)
+    ax1.set_ylabel("Normalized sensor reading (mm)")
+    ax2 = fig.add_subplot(212)
+    ax1.set_title("Incoming data stream")
+    ax2.set_title("Deposit thickness")
+    ax2.set_xlabel("Distance traveled (mm)")
+    ax2.set_ylabel("Thickness (mm)")
     resultFile = open("results.txt", "w+")
     laserData = open("laserdata.txt","r").read()
     inductiveData = open("inductivedata.txt","r").read()
