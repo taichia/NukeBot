@@ -1,30 +1,30 @@
+#15 volts to inductive
+#13.18 volts to od
+
+
 import serial
 import sys
 import time
-
-def read_values(sensor):
-	send_message = 'VAL'
-	send_message = str(send_message)
-	sensor.write(send_message.encode())
-	return sensor.readline()
+import os
 
 # Change this for every sensor used, no way to automatically 
 # detect which sensors are being used, as there is no 
 # direct connection between the sensors and the computer and also
 # prob impossible even if there was a direct connection.
-laser_model = 'Laser Beam Pew Pew' 	
-inductive_model = 'Bongo-Lite'
+laser_model = 'OD2-P85W20I0' 	
+inductive_model = 'IMA30-40NE1ZC0K'
 
 # 200*10*6 should be max number of steps possible
 max_steps = 200*10*6
-
+	
 #The following line is for serial over GPIO
 #The port number needs to be changed every time you change computers/reboot(?)
-port1 = '/dev/tty.usbmodem1411'
-port2 = '/dev/tty.usbserial'
-port3 = '/dev/tty.usbserial4'
+port1 = '/dev/tty.usbmodem14221'
+port2 = '/dev/tty.usbserial10'
+port3 = '/dev/tty.usbserial'
 # 
-# ard = serial.Serial(port1,1200,timeout=5)
+# print("hi")
+ard = serial.Serial(port1,115200,timeout=5)
 laser = serial.Serial(port = port2,
 	baudrate = 9600, 
 	parity = serial.PARITY_NONE,
@@ -44,8 +44,6 @@ print ('Before starting, make sure you changed sensor model numbers.')
 print ('Currently, the laser sensor is: ' + laser_model)
 print ('The inductive sensor is: ' + inductive_model)
 
-
-print ('Start sequence initiated, please do not touch anything')
 
 # laser.write('ADC\n'.encode())
 
@@ -70,10 +68,10 @@ def getDataFromDMM(device):
 			reading = convertToFloat(line)
 	return reading
 
-ard.write("0")
-ard.readline()
-laser.write((input() + '\n').encode())
-inductive.write((input() + '\n').encode())
+# ard.write("0")
+# ard.readline()
+laser.write(('ADC\n').encode())
+inductive.write(('VDC\n').encode())
 line = ""
 while(not line.startswith("=>")):
 	line = laser.readline().strip()
@@ -81,12 +79,30 @@ line = ""
 while(not line.startswith("=>")):
 	line = inductive.readline().strip()
 
-while(1):
-	ard.write("1")
-	print(ard.readline())
-	print(getDataFromDMM(laser))
-	print(getDataFromDMM(inductive))
-	# time.sleep(.01)
+count = 0
+
+laserdata = open("laserdata.txt", "w+")
+inductivedata = open("inductivedata.txt", "w+")
+
+try:
+	while(1):
+		ard.write("11111")
+		ard.readline()
+		laserReading = getDataFromDMM(laser)
+		inductiveReading = getDataFromDMM(inductive)
+		laserdata.write("%f,%f\n" % (0.04 * count * 5, laserReading * 1000))
+		inductivedata.write("%f,%f\n" % (0.04 * count * 5, inductiveReading))
+		laserdata.flush()
+		inductivedata.flush()
+		os.fsync(laserdata.fileno())
+		os.fsync(inductivedata.fileno())
+		count += 1
+		# print(getDataFromDMM(laser))
+		# print(getDataFromDMM(inductive))
+		time.sleep(.1)
+except:
+	laser.close()
+	inductive.close()
 
 #inductive.flush()
 

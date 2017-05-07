@@ -15,7 +15,7 @@ int x;
 void setup() {
 
   // 220_TODO: initialize serial communication at a baud rate of 1200
-  Serial.begin(1200);
+  Serial.begin(115200);
   // 220_TODO: set ledPin to OUTPUT and write ledState to ledPin
   pinMode(stepPin,OUTPUT);
   pinMode(directionPin,OUTPUT);
