@@ -6,7 +6,7 @@ import time
 mmHeightLaserAboveInductive = 62.738
 mmLaserInFrontOfInductive = 100.84
 stepSize = .2
-mmLaserInFrontOfInductive = mmLaserInFrontOfInductive//stepSize
+mmLaserInFrontOfInductive = round(((mmLaserInFrontOfInductive//stepSize) * stepSize), 2)
 
 # 4 to 20 mA range, 65 to 105 mm range, extrapolated
 def convertmALaser(mA):
