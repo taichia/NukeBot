@@ -24,9 +24,9 @@ ax1.set_title("Incoming data stream")
 ax2.set_title("Deposit thickness")
 ax2.set_xlabel("Distance traveled (mm)")
 ax2.set_ylabel("Thickness (mm)")
-resultFile = open("results.txt", "w+")
 
 def animate(i):
+    resultFile = open("results.txt", "w+")
     laserData = open("laserdata.txt","r").read()
     inductiveData = open("inductivedata.txt","r").read()
     laserArray = laserData.split('\n')
