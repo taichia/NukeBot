@@ -3,7 +3,7 @@ import matplotlib.animation as animation
 import time
 
 # based on CAD and measurements
-mmHeightLaserAboveInductive = 62.34
+mmHeightLaserAboveInductive = 63.1
 mmLaserInFrontOfInductive = 100.84
 stepSize = .2
 mmLaserInFrontOfInductive = round(((mmLaserInFrontOfInductive//stepSize) * stepSize), 2)
