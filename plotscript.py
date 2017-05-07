@@ -5,6 +5,8 @@ import time
 # based on CAD and measurements
 mmHeightLaserAboveInductive = 62.738
 mmLaserInFrontOfInductive = 100.84
+stepSize = .2
+mmLaserInFrontOfInductive = mmLaserInFrontOfInductive//stepSize
 
 # 4 to 20 mA range, 65 to 105 mm range, extrapolated
 def convertmALaser(mA):
@@ -16,12 +18,12 @@ def convertVoltageInductive(V):
 
 fig = plt.figure()
 ax1 = fig.add_subplot(211)
-plt.ylabel("Normalized sensor reading (mm)")
+ax1.set_ylabel("Normalized sensor reading (mm)")
 ax2 = fig.add_subplot(212)
 ax1.set_title("Incoming data stream")
 ax2.set_title("Deposit thickness")
-plt.xlabel("Distance traveled (mm)")
-plt.ylabel("Thickness (mm)")
+ax2.set_xlabel("Distance traveled (mm)")
+ax2.set_ylabel("Thickness (mm)")
 resultFile = open("results.txt", "w+")
 
 def animate(i):
