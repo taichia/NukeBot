@@ -60,7 +60,7 @@ def animate(i):
             newX, newY = laserXPos, (y - laserYPos)
             deltaX.append(newX)
             deltaY.append(newY)
-            resultFile.write("%.4f,%.4f\n" % newX, newY)
+            resultFile.write("%.4f,%.4f\n" % (newX, newY))
     resultFile.close()
     ax2.clear()
     ax2.plot(deltaX,deltaY)
