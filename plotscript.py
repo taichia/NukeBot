@@ -49,7 +49,7 @@ def animate(i):
     laserMap = dict(zip(laserX, laserY))
     for i in range(len(inductiveX)):
         x, y = inductiveX[i], inductiveY[i]
-        laserXPos = x + mmLaserInFrontOfInductive
+        laserXPos = x - mmLaserInFrontOfInductive
         if laserXPos in laserMap:
             laserYPos = laserMap[laserXPos]
             newX, newY = laserXPos, (y - laserYPos)
